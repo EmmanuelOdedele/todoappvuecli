@@ -28,7 +28,9 @@
             </div>
           </td>
           <td>
-            <div class="text-center"></div>
+            <div class="text-center">
+              <span class="fa fa-trash"></span>
+            </div>
           </td>
         </tr>
       </tbody>
