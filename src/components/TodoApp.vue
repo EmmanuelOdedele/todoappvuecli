@@ -28,9 +28,7 @@
             </div>
           </td>
           <td>
-            <div class="text-center">
-              <span class="fa fa-trash"></span>
-            </div>
+            <div class="text-center"></div>
           </td>
         </tr>
       </tbody>
@@ -58,6 +56,10 @@ export default {
         },
         {
           name: "Sleep",
+          status: "to-do",
+        },
+        {
+          name: "Read",
           status: "to-do",
         },
       ],
