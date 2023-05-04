@@ -4,8 +4,8 @@
 
     <!-- Input -->
     <div class="d-flex mt-5">
-      <input type="text" placeholder="Enter task" class="form-control" />
-      <button class="btn btn-warning">SUBMIT</button>
+      <input v-model="task" type="text" placeholder="Enter task" class="form-control" />
+      <button @click="submitTask" class="btn btn-warning">SUBMIT</button>
     </div>
 
     <!--Task-->
@@ -21,14 +21,16 @@
       <tbody>
         <tr v-for="(task, index) in tasks" :key="index">
           <td>{{ task.name }}</td>
-          <td>{{ task.status }}</td>
           <td>
-            <div class="text-center">
+            <span @click="changeStatus(index)" class="pointer">{{ task.status }}</span>
+          </td>
+          <td>
+            <div @click="editTask(index)" class="text-center">
               <span class="fa fa-pen"></span>
             </div>
           </td>
           <td>
-            <div class="text-center">
+            <div @click="deleteTask(index)" class="text-center">
               <span class="fa fa-trash"></span>
             </div>
           </td>
@@ -47,6 +49,9 @@ export default {
 
   data() {
     return {
+      task: "",
+      editedTask: null,
+      availableStatuses: ["to-do", "in-progress", "finished"],
       tasks: [
         {
           name: "Prayer",
@@ -64,11 +69,49 @@ export default {
           name: "Read",
           status: "to-do",
         },
+        {
+          name: "Rest",
+          status: "to-do",
+        },
       ],
     };
+  },
+
+  methods: {
+    submitTask() {
+      if (this.task.length === 0) return;
+
+      if (this.editedTask === null) {
+        this.tasks.push({
+          name: this.task,
+          status: "to-do",
+        });
+      } else {
+        this.tasks[this.editedTask].name = this.task;
+        this.editedTask = null;
+      }
+
+      this.task = "";
+    },
+    deleteTask(index) {
+      this.tasks.splice(index, 1);
+    },
+    editTask(index) {
+      this.task = this.tasks[index].name;
+      this.editedTask = index;
+    },
+    changeStatus(index) {
+      let newIndex = this.availableStatuses.indexOf(this.tasks[index].status);
+      if (++newIndex > 2) newIndex = 0;
+      this.tasks[index].status = this.availableStatuses[newIndex];
+    },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+.pointer {
+  cursor: pointer;
+}
+</style>
